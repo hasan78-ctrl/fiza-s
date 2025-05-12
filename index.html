@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>I'm Sorry, Fiza</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+      color: #333;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 3em;
+      color: #c71585;
+    }
+    p {
+      font-size: 1.5em;
+      margin: 10px 20px;
+    }
+    .poetry {
+      font-style: italic;
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #8b0000;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>I'm Sorry, Fiza</h1>
+  <p>You are beautiful, sweet, and kind. Please accept this 3D bouquet as a small apology.</p>
+  <div class="poetry">
+    "ik husn-e-be-misāl kī tamsīl ke liye<br>
+    parchhā.iyoñ pe rang girātā rahā huuñ maiñ"
+  </div>
+
+  <audio autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    function createPetal(x, y, z, color) {
+      const geometry = new THREE.ConeGeometry(0.2, 0.5, 8);
+      const material = new THREE.MeshPhongMaterial({color: color, shininess: 100});
+      const cone = new THREE.Mesh(geometry, material);
+      cone.position.set(x, y, z);
+      scene.add(cone);
+    }
+
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2;
+      const x = Math.cos(angle);
+      const z = Math.sin(angle);
+      createPetal(x, 0, z, 0xff69b4);
+    }
+
+    const stemGeometry = new THREE.CylinderGeometry(0.05, 0.05, 2, 32);
+    const stemMaterial = new THREE.MeshPhongMaterial({color: 0x006400});
+    const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+    stem.position.y = -1;
+    scene.add(stem);
+
+    const light = new THREE.PointLight(0xffffff, 1, 100);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    camera.position.z = 4;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      scene.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
